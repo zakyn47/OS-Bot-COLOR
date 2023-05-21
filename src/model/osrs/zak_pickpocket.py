@@ -6,15 +6,16 @@ import utilities.random_util as rd
 from model.osrs.osrs_bot import OSRSBot
 from utilities.api.morg_http_client import MorgHTTPSocket
 from utilities.api.status_socket import StatusSocket
-
+from utilities.imagesearch import search_img_in_rect
+import pyautogui
 
 class Pickpocket(OSRSBot):
     def __init__(self):
         bot_title = "Pickpocket"
-        description = "pickpocket master farmer @ hosidius - mark NPC clr.cyan, use cakes as food"
+        description = "pickpocket ardougne knights - mark NPC clr.cyan,bank clr.yellow, use chocolate cakes as food"
         super().__init__(bot_title=bot_title, description=description)
         # Set option variables below (initial value is only used during headless testing)
-        self.running_time = 10
+        self.running_time = 100
 
     def create_options(self):
         """
@@ -53,18 +54,18 @@ class Pickpocket(OSRSBot):
         if nearest_npc is None:
             self.log_msg("No cyan tagged NPC found.")
             return
-        self.log_msg(f"Found cyan tagged NPC: {nearest_npc}")
-        self.mouse.move_to(destination=nearest_npc.random_point())
+        self.mouse.move_to(destination=nearest_npc.center())
         self.mouse.click()
-        api_m.wait_til_gained_xp(skill="Thieving", timeout=4)
+        api_m.wait_til_gained_xp(skill="Thieving", timeout=1.5)
 
     def __open_pouches(self, api_m: MorgHTTPSocket):
         """
         clicks on pouches in first inventory slot
         """
         self.log_msg("Opening pouches")
-        pouch = api_m.get_inv_item_indices(item_id=ids.COIN_POUCH)
-        self.drop(slots=pouch)
+        pouch = api_m.get_inv_item_indices(item_id=ids.coin_pouches)
+        self.mouse.move_to(destination=self.win.inventory_slots[pouch[0]].random_point())
+        self.mouse.click()
 
     def __silk_stall(self, api_m: MorgHTTPSocket):
         """
@@ -79,15 +80,31 @@ class Pickpocket(OSRSBot):
         if api_m.get_is_inv_full():
             self.drop(slots=silk)
 
-    def __eat(self, api: StatusSocket):
+    def __eat(self, api_s: StatusSocket):
         self.log_msg("HP is low.")
-        food_slots = api.get_inv_item_indices(ids.combo_food)
+        food_slots = api_s.get_inv_item_indices(ids.combo_food)
         if len(food_slots) == 0:
             self.log_msg("No food found. Pls tell me what to do...")
             return
         self.log_msg("Eating food...")
         self.mouse.move_to(self.win.inventory_slots[food_slots[0]].random_point())
         self.mouse.click()
+
+    def __bank(self, api_m: MorgHTTPSocket):
+        self.log_msg("Banking")
+        time.sleep(10)
+        bank = self.get_nearest_tag(color=clr.YELLOW)
+        self.mouse.move_to(destination=bank.center())
+        self.mouse.click()
+        time.sleep(10)
+        chocolate_cake = search_img_in_rect(r"C:\Users\Lukas\Desktop\OS-Bot-COLOR\src\images\bot\scraper\Chocolate_cake_bank.png", self.win.game_view)
+        self.mouse.move_to(destination=chocolate_cake.get_center())
+        self.mouse.click()
+        pyautogui.press("esc")
+        
+        
+
+
 
     def main_loop(self):
         # Setup APIs
@@ -106,6 +123,13 @@ class Pickpocket(OSRSBot):
             ids.ROSEMARY_SEED,
             ids.NASTURTIUM_SEED,
             ids.WILDBLOOD_SEED,
+            ids.JUTE_SEED,
+            ids.JUG,
+            ids.JUG_OF_WINE,
+            ids.GOLD_ORE,
+            ids.DIAMOND,
+            ids.FIRE_ORB,
+            ids.VIAL,
         ]
 
         # Main loop
@@ -116,12 +140,15 @@ class Pickpocket(OSRSBot):
             # Code within this block will LOOP until the bot is stopped.
             print(f"api status: {api_m.test_endpoints()}")
             self.__pickpocket(api_m=api_m)
+            if api_m.get_inv_item_indices(item_id=ids.combo_food) == []:
+                self.__bank(api_m=api_m)
             if api_m.get_hitpoints()[0] < 20:
-                self.__eat(api_m)
-            elif api_m.get_is_inv_full():
+                self.__eat(api_s=api_s)
+            if api_m.get_is_inv_full():
                 self.drop(slots=api_m.get_inv_item_indices(junk))
-            elif api_m.get_inv_item_stack_amount(ids.combo_food) < 1:
-                self.logout()
+            if api_m.get_inv_item_stack_amount(ids.coin_pouches) > 27:
+                self.__open_pouches(api_m=api_m)
+            
 
             self.update_progress((time.time() - start_time) / end_time)
 
