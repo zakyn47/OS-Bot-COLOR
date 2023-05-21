@@ -97,7 +97,7 @@ class Pickpocket(OSRSBot):
         self.mouse.move_to(destination=bank.center())
         self.mouse.click()
         time.sleep(10)
-        chocolate_cake = search_img_in_rect(r"C:\Users\Lukas\Desktop\OS-Bot-COLOR\src\images\bot\scraper\Chocolate_cake_bank.png", self.win.game_view)
+        chocolate_cake = search_img_in_rect(r"src\images\bot\scraper\Chocolate_cake_bank.png", self.win.game_view)
         self.mouse.move_to(destination=chocolate_cake.get_center())
         self.mouse.click()
         pyautogui.press("esc")
