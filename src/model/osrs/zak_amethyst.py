@@ -10,8 +10,8 @@ from utilities.api.status_socket import StatusSocket
 
 class Amethyst(OSRSBot):
     def __init__(self):
-        bot_title = "Mining guild - iron ore"
-        description = "mining and banking iron ore in the mining guild, set bank to deposit all, mark bank clr.yellow and iron rocks clr.pink, make sure both are visible in win.game_view"
+        bot_title = "Mining guild - amethyst"
+        description = "mining and banking amethyst ore in the mining guild, set bank to deposit all, mark bank clr.yellow and iron rocks clr.pink, make sure both are visible in win.game_view"
         super().__init__(bot_title=bot_title, description=description)
         # Set option variables below (initial value is only used during UI-less testing)
         self.running_time = 50
