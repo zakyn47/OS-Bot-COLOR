@@ -13002,6 +13002,16 @@ axes = [
     CRYSTAL_AXE,
 ]
 
+uncut_gems = [
+    UNCUT_OPAL,
+    UNCUT_JADE,
+    UNCUT_RED_TOPAZ,
+    UNCUT_SAPPHIRE,
+    UNCUT_EMERALD,
+    UNCUT_RUBY,
+    UNCUT_DIAMOND,
+    UNCUT_DRAGONSTONE]
+
 coins = [
     COINS,
     COINS_995,
