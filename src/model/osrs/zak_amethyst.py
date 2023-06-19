@@ -49,11 +49,6 @@ class Amethyst(OSRSBot):
         time.sleep(12)
         self.mouse.move_to(self.win.inventory_slots[0].random_point())
         self.mouse.click()
-        if api_m.get_if_item_in_inv(item_id=ids.uncut_gems):
-            self.mouse.move_to(api_m.get_first_occurrence(item_id=ids.uncut_gems).random_point())
-            self.mouse.click()
-        self.mouse.move_to(api_m.get_first_occurrence(item_id=ids.AMETHYST).random_point())
-        self.mouse.click()
         time.sleep(1)
         self.mouse.move_to(destination=self.get_all_tagged_in_rect(self.win.game_view, clr.PINK)[0].random_point())
         self.mouse.click()
