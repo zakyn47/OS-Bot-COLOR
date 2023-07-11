@@ -85,7 +85,7 @@ class Amethyst(OSRSBot):
             starting_point = self.get_nearest_tag(clr.PURPLE)
             time.sleep(5) # nemazat nebo se to cely rozbije
 
-            if api_s.get_is_inv_full():
+            if api_m.get_is_inv_full():
                 self.log_msg("Inventory full, banking...")
                 self.__bank(api_m=api_m)
             else:
