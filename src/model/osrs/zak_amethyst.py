@@ -90,7 +90,7 @@ class Amethyst(OSRSBot):
                 self.__bank(api_m=api_m)
             else:
                 for rock in amethyst_vein:
-                    if api_s.get_is_player_idle():
+                    if api_m.get_is_player_idle():
                         self.mouse.move_to(destination=rock.random_point())
                         self.mouse.click()
                         time.sleep(5)
