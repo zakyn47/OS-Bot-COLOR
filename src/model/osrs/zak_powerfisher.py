@@ -45,7 +45,7 @@ class PowerFisher(OSRSBot):
 
     def main_loop(self):
         # API setup
-        api = StatusSocket()
+        api = MorgHTTPSocket()
 
         self.log_msg("Selecting inventory...")
         self.mouse.move_to(self.win.cp_tabs[3].random_point())
