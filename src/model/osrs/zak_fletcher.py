@@ -5,7 +5,6 @@ import utilities.color as clr
 import utilities.random_util as rd
 from model.osrs.osrs_bot import OSRSBot
 from utilities.api.morg_http_client import MorgHTTPSocket
-from utilities.api.status_socket import StatusSocket
 import pyautogui
 from utilities.imagesearch import search_img_in_rect
 
@@ -15,7 +14,7 @@ class Fletcher(OSRSBot):
         description = "fletch bows"
         super().__init__(bot_title=bot_title, description=description)
         # Set option variables below (initial value is only used during headless testing)
-        self.running_time = 1
+        self.running_time = 100
 
     def create_options(self):
         """
@@ -76,7 +75,7 @@ class Fletcher(OSRSBot):
             self.mouse.move_to(self.win.inventory_slots[1].get_center())
             self.mouse.click()
             # withdraw logs
-            log_position = search_img_in_rect(r"C:\Users\Lukas\Desktop\OS-Bot-COLOR\src\images\bot\scraper\Oak_logs_bank.png", self.win.game_view)
+            log_position = search_img_in_rect(r"C:\Users\sakul\Desktop\OS-Bot-COLOR\src\images\bot\scraper\Oak_logs_bank.png", self.win.game_view)
             self.mouse.move_to(log_position.get_center())
             self.mouse.click()
             time.sleep(1)
@@ -89,10 +88,11 @@ class Fletcher(OSRSBot):
             self.mouse.click()
             time.sleep(1)
             pyautogui.press("space")
-            time.sleep(30)
+            time.sleep(rd.fancy_normal_sample(30, 45))
 
 
             self.update_progress((time.time() - start_time) / end_time)
+
 
         self.update_progress(1)
         self.log_msg("Finished.")
