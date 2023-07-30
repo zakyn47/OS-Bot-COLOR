@@ -8,6 +8,7 @@ import model.osrs.Bow_Fletcher.BotSpecImageSearch as imsearch
 import utilities.game_launcher as launcher
 import pathlib
 import model.osrs.Bow_Fletcher.BowFletcher_recipes as Bow_recipes
+import random
 
 
 
@@ -103,7 +104,8 @@ class OSRSBowFletcher(OSRSBot, launcher.Launchable):
         self.close_bank()
         self.Fletch_bows(self.what_to_fletch) 
         self.make_all()      
-        self.check_inv(self.what_to_fletch)
+        #self.check_inv(self.what_to_fletch) totok je rozbvity
+        time.sleep(random.randrange(30,60))
         self.find_nearest_bank()
         self.deposit_items()
                          
