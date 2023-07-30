@@ -60,7 +60,7 @@ class Fletcher(OSRSBot):
         self.mouse.move_to(second_inv_slot_location.get_center())
         self.mouse.click()
         time.sleep(1)
-        self.mouse.move_to(logs.center())
+        self.mouse.move_to(logs.get_center())
         self.mouse.click()
         time.sleep(1)
         pyautogui.press("esc")
