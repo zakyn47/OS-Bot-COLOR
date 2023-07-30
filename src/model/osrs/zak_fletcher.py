@@ -51,13 +51,16 @@ class Fletcher(OSRSBot):
         self.options_set = True
 
     def __bank(self):
+        logs = search_img_in_rect(r"C:\Users\sakul\Desktop\OS-Bot-COLOR\src\images\bot\scraper\Maple_logs_bank.png")
         bank_location = self.get_all_tagged_in_rect(self.win.game_view, clr.YELLOW)
-        knife_location = self.win.inventory_slots[0]
         second_inv_slot_location = self.win.inventory_slots[1]
         self.mouse.move_to(bank_location[0].center())
         self.mouse.click()
         time.sleep(1)
         self.mouse.move_to(second_inv_slot_location.get_center())
+        self.mouse.click()
+        time.sleep(1)
+        self.mouse.move_to(logs.center())
         self.mouse.click()
         time.sleep(1)
         pyautogui.press("esc")
