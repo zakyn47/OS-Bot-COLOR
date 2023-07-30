@@ -11,7 +11,13 @@ from utilities.imagesearch import search_img_in_rect
 class Fletcher(OSRSBot):
     def __init__(self):
         bot_title = "Zak Fletcher"
-        description = "fletch bows"
+        description = """
+        fletches logs
+        1st inventory slot must be knife
+        bank all must be enabled
+
+        tag bank booth with clr.YELLOW
+        """
         super().__init__(bot_title=bot_title, description=description)
         # Set option variables below (initial value is only used during headless testing)
         self.running_time = 100
@@ -44,6 +50,31 @@ class Fletcher(OSRSBot):
         self.log_msg("Options set successfully.")
         self.options_set = True
 
+    def __bank(self):
+        bank_location = self.get_all_tagged_in_rect(self.win.game_view, clr.YELLOW)
+        knife_location = self.win.inventory_slots[0]
+        second_inv_slot_location = self.win.inventory_slots[1]
+        self.mouse.move_to(bank_location[0].center())
+        self.mouse.click()
+        time.sleep(1)
+        self.mouse.move_to(second_inv_slot_location.get_center())
+        self.mouse.click()
+        time.sleep(1)
+        pyautogui.press("esc")
+        time.sleep(1)
+
+    def __fletch(self):
+        knife_location = self.win.inventory_slots[0]
+        second_inv_slot_location = self.win.inventory_slots[1]
+        self.mouse.move_to(knife_location.get_center())
+        self.mouse.click()
+        self.mouse.move_to(second_inv_slot_location.get_center())
+        self.mouse.click()
+        time.sleep(1)
+        pyautogui.press("space")
+        time.sleep(rd.fancy_normal_sample(40, 60))
+
+
     def main_loop(self):
         """
         When implementing this function, you have the following responsibilities:
@@ -66,34 +97,11 @@ class Fletcher(OSRSBot):
         start_time = time.time()
         end_time = self.running_time * 60
         while time.time() - start_time < end_time:
-            # open bank
-            bank = self.get_all_tagged_in_rect(self.win.game_view, clr.CYAN)
-            self.mouse.move_to(bank[0].center())
-            self.mouse.click()
-            time.sleep(1)
-            # deposit all
-            self.mouse.move_to(self.win.inventory_slots[1].get_center())
-            self.mouse.click()
-            # withdraw logs
-            log_position = search_img_in_rect(r"C:\Users\sakul\Desktop\OS-Bot-COLOR\src\images\bot\scraper\Oak_logs_bank.png", self.win.game_view)
-            self.mouse.move_to(log_position.get_center())
-            self.mouse.click()
-            time.sleep(1)
-            pyautogui.press("esc")
-            time.sleep(2)
-            # fletch
-            self.mouse.move_to(self.win.inventory_slots[0].get_center())
-            self.mouse.click()
-            self.mouse.move_to(self.win.inventory_slots[1].get_center())
-            self.mouse.click()
-            time.sleep(1)
-            pyautogui.press("space")
-            time.sleep(rd.fancy_normal_sample(30, 45))
-
+            self.__bank()
+            self.__fletch()
 
             self.update_progress((time.time() - start_time) / end_time)
-
-
+            self.log_msg(f"Running for {round((time.time() - start_time) / 60, 2)} minutes.")
         self.update_progress(1)
         self.log_msg("Finished.")
         self.stop()
