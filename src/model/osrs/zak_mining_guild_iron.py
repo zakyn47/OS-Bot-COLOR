@@ -63,7 +63,6 @@ class MiningGuildIron(OSRSBot):
         3. At the end of the main loop, make sure to call `self.stop()`.
         """
         api_m = MorgHTTPSocket()
-        api_s = StatusSocket()
 
         mined_ores = 0
         gained_xp = 0
@@ -83,7 +82,7 @@ class MiningGuildIron(OSRSBot):
             iron_ore = api_m.get_first_occurrence(item_id=ids.IRON_ORE)
             starting_point = self.get_nearest_tag(clr.PURPLE)
 
-            if api_s.get_is_inv_full():
+            if api_m.get_is_inv_full():
                 self.log_msg("Inventory full, banking...")
                 self.__bank(api_m=api_m)
             else:
