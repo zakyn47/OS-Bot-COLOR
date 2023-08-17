@@ -143,7 +143,7 @@ class Pickpocket(OSRSBot):
             if api_m.get_inv_item_indices(item_id=ids.combo_food) == []:
                 self.__bank(api_m=api_m)
             if api_m.get_hitpoints()[0] < 20:
-                self.__eat(api_s=api_s)
+                self.__eat(api_m=api_m)
             if api_m.get_is_inv_full():
                 self.drop(slots=api_m.get_inv_item_indices(junk))
             if api_m.get_inv_item_stack_amount(ids.coin_pouches) > 27:
