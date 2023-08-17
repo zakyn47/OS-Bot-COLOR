@@ -80,9 +80,9 @@ class Pickpocket(OSRSBot):
         if api_m.get_is_inv_full():
             self.drop(slots=silk)
 
-    def __eat(self, api_s: StatusSocket):
+    def __eat(self, api_m: MorgHTTPSocket):
         self.log_msg("HP is low.")
-        food_slots = api_s.get_inv_item_indices(ids.combo_food)
+        food_slots = api_m.get_inv_item_indices(ids.combo_food)
         if len(food_slots) == 0:
             self.log_msg("No food found. Pls tell me what to do...")
             return
