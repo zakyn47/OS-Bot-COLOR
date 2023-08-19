@@ -12,7 +12,7 @@ from utilities.geometry import RuneLiteObject
 
 class PowerMiner(OSRSBot):
     def __init__(self):
-        bot_title = "POWERMINER"
+        bot_title = "ZAK - POWERMINER"
         description = "This bot powermine whatever is tagged by runelite with clr.PINK"
         super().__init__(bot_title=bot_title, description=description)
         self.running_time = 30
@@ -68,8 +68,8 @@ class PowerMiner(OSRSBot):
 
             marked_objects = self.get_all_tagged_in_rect(self.win.game_view, clr.PINK)
 
-            if api_s.get_is_inv_full():
-                self.drop(slots=api_s.get_inv_item_indices(ids.ores))
+            if api_m.get_is_inv_full():
+                self.drop(slots=api_m.get_inv_item_indices(ids.ores))
 
             for ore in marked_objects:
                 self.ores += 1
@@ -88,10 +88,10 @@ class PowerMiner(OSRSBot):
         self.logout()
         self.stop()
 
-    def __drop_iron_ores(self, api_s: StatusSocket):
+    def __drop_iron_ores(self, api_m: MorgHTTPSocket):
         """
         drops all iron ores from inventory
         """
-        slots = api_s.get_inv_item_indices(ids.IRON_ORE)
+        slots = api_m.get_inv_item_indices(ids.IRON_ORE)
         self.drop(slots)
         time.sleep(1)
