@@ -56,7 +56,7 @@ class Pickpocket(OSRSBot):
             return
         self.mouse.move_to(destination=nearest_npc.center())
         self.mouse.click()
-        api_m.wait_til_gained_xp(skill="Thieving", timeout=1.5)
+        api_m.wait_til_gained_xp(skill="Thieving", timeout=1.1)
 
     def __open_pouches(self, api_m: MorgHTTPSocket):
         """
